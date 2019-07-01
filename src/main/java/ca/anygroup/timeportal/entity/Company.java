@@ -8,6 +8,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -27,8 +28,17 @@ public class Company {
 	@Column(name="last_updated")
 	private LocalDate lastUpdated;
 	
+	@Column(name="accepted")
+	private int accepted;
+	
 	@OneToMany(mappedBy="company", cascade=CascadeType.ALL)
 	private Set<Employee> employees;
+	
+	@OneToOne(mappedBy="company", cascade=CascadeType.ALL)
+	private Auth auth;
+	
+	@OneToOne(mappedBy="company", cascade=CascadeType.ALL)
+	private RegisterationToken token;
 	
 	public Company(){}
 
@@ -77,6 +87,31 @@ public class Company {
 
 	public void setEmployees(Set<Employee> employees) {
 		this.employees = employees;
+	}
+
+	public Auth getAuth() {
+		return auth;
+	}
+
+	public void setAuth(Auth auth) {
+		this.auth = auth;
+	}
+
+	public int getAccepted() {
+		return accepted;
+	}
+
+	public void setAccepted(int isAccepted) {
+		this.accepted = isAccepted;
+	}
+
+	public RegisterationToken getToken() {
+		return token;
+	}
+
+	public void setToken(RegisterationToken token) {
+		token.setCompany(this);
+		this.token = token;
 	}
 	
 	
